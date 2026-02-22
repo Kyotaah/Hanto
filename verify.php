@@ -7,7 +7,7 @@ define('DB_PORT', 5432);
 define('DB_NAME', 'fordkey');
 define('DB_USER', 'fordkey_user');
 define('DB_PASS', 'hMxLH6jBmLvM6uworyRynomtRie1GUbT');
-define('ALLOWED_SCRIPT', 'Hanto');
+define('ALLOWED_SCRIPT', 'Ford');
 define('MAX_ATTEMPTS_PER_IP', 10);
 define('ATTEMPT_WINDOW', 900); // seconds
 define('CREATOR_ID', 1740176503); // Your Roblox User ID
