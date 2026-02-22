@@ -282,16 +282,17 @@ switch ($action) {
         break;
 
     case 'search_by_prefix':
-        $prefix = $input['prefix'] ?? '';
-        if (strlen($prefix) < 2) {
-            echo json_encode(['success' => false, 'error' => 'Prefix too short (min 2 chars)']);
-            break;
-        }
-        $stmt = $pdo->prepare("SELECT key_code FROM hanto_keys WHERE key_code LIKE ? ORDER BY created_at DESC LIMIT 25");
-        $stmt->execute([$prefix . '%']);
-        $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
-        echo json_encode(['success' => true, 'keys' => $rows]);
+    $prefix = $input['prefix'] ?? '';
+    if (strlen($prefix) < 2) {
+        echo json_encode(['success' => false, 'error' => 'Prefix too short (min 2 chars)']);
         break;
+    }
+    // Use ILIKE for case‑insensitive search
+    $stmt = $pdo->prepare("SELECT key_code FROM hanto_keys WHERE key_code ILIKE ? ORDER BY created_at DESC LIMIT 25");
+    $stmt->execute([$prefix . '%']);
+    $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
+    echo json_encode(['success' => true, 'keys' => $rows]);
+    break;
 
     case 'list':
         $stmt = $pdo->query("SELECT key_code, hwid, expires_at, uses, max_uses, locked, is_troll, created_at FROM hanto_keys ORDER BY created_at DESC LIMIT 20");
